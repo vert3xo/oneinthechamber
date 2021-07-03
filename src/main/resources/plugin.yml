@@ -1,0 +1,24 @@
+name: ${artifactId}
+main: ${groupId}.${artifactId}
+version: ${version}
+
+commands:
+  startgame:
+    description: Starts the game
+    permission: oitc.admin
+  endgame:
+    description: Stops the game
+    permission: oitc.admin
+  gamestatus:
+    description: Gets the game's current status
+    permission: oitc.admin
+  setlobby:
+    description: Sets the waiting lobby location
+    permission: oitc.admin
+  setarena:
+    description: Sets the arena location
+    permission: oitc.admin
+
+permissions:
+  oitc.admin:
+    default: op

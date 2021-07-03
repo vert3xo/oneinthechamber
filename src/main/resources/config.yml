@@ -1,0 +1,19 @@
+lobbyLocation:
+  world: ""
+  x: 0
+  y: 0
+  z: 0
+
+arenaLocation:
+  world: ""
+  x: 0
+  y: 0
+  z: 0
+
+endLocation:
+  world: ""
+  x: 0
+  y: 0
+  z: 0
+
+gameTime: 600

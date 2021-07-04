@@ -8,15 +8,14 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetArena extends AbstractCommand {
-    private final OneInTheChamber plugin = OneInTheChamber.getPlugin();
-    private final ConfigurationHelper config = plugin.getConfigHelper();
+public class SetEnd extends AbstractCommand {
+    private OneInTheChamber plugin = OneInTheChamber.getPlugin();
 
-    public SetArena(String command) {
+    public SetEnd(String command) {
         super(command);
     }
 
-    public SetArena(String command, boolean canConsoleUse) {
+    public SetEnd(String command, boolean canConsoleUse) {
         super(command, canConsoleUse);
     }
 
@@ -32,12 +31,12 @@ public class SetArena extends AbstractCommand {
 
         world.setSpawnLocation(x, y, z);
 
-        ConfigurationHelper arenaLocationHelper = plugin.getConfigHelper().getForPath("arenaLocation");
-        arenaLocationHelper.set("world", world.getName());
-        arenaLocationHelper.set("x", x + 0.5);
-        arenaLocationHelper.set("y", y);
-        arenaLocationHelper.set("z", z + 0.5);
-        player.sendMessage(ChatColor.GREEN + "Arena location set.");
+        ConfigurationHelper endLocationHelper = plugin.getConfigHelper().getForPath("endLocation");
+        endLocationHelper.set("world", world.getName());
+        endLocationHelper.set("x", x + 0.5);
+        endLocationHelper.set("y", y);
+        endLocationHelper.set("z", z + 0.5);
+        player.sendMessage(ChatColor.GREEN + "End location set.");
         return true;
     }
 }

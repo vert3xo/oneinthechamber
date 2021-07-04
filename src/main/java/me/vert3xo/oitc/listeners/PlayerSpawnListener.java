@@ -3,6 +3,7 @@ package me.vert3xo.oitc.listeners;
 import me.vert3xo.oitc.OneInTheChamber;
 import me.vert3xo.oitc.game.Game;
 import me.vert3xo.oitc.game.GameState;
+import me.vert3xo.oitc.utils.ConfigurationHelper;
 import me.vert3xo.oitc.utils.ScoreHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -37,18 +38,20 @@ public class PlayerSpawnListener implements Listener {
         Location spawnLoc;
 
         if (gameState != GameState.RUNNING) {
+            ConfigurationHelper lobbyLocationHelper = plugin.getConfigHelper().getForPath("lobbyLocation");
             spawnLoc = new Location(
-                    Bukkit.getWorld(config.getString("lobbyLocation.world")),
-                    config.getDouble("lobbyLocation.x"),
-                    config.getDouble("lobbyLocation.y"),
-                    config.getDouble("lobbyLocation.z")
+                    Bukkit.getWorld(lobbyLocationHelper.getString("world")),
+                    lobbyLocationHelper.getDouble("x"),
+                    lobbyLocationHelper.getDouble("y"),
+                    lobbyLocationHelper.getDouble("z")
             );
         } else {
+            ConfigurationHelper lobbyLocationHelper = plugin.getConfigHelper().getForPath("arenaLocation");
             spawnLoc = new Location(
-                    Bukkit.getWorld(config.getString("arenaLocation.world")),
-                    config.getDouble("arenaLocation.x"),
-                    config.getDouble("arenaLocation.y"),
-                    config.getDouble("arenaLocation.z")
+                    Bukkit.getWorld(config.getString("world")),
+                    config.getDouble("x"),
+                    config.getDouble("y"),
+                    config.getDouble("z")
             );
         }
 

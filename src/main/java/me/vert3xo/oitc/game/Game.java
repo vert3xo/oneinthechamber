@@ -3,15 +3,13 @@ package me.vert3xo.oitc.game;
 import lombok.Getter;
 import lombok.Setter;
 import me.vert3xo.oitc.OneInTheChamber;
-import me.vert3xo.oitc.configuration.ConfigurationHelper;
+import me.vert3xo.oitc.utils.ConfigurationHelper;
 import me.vert3xo.oitc.utils.ScoreHelper;
 import me.vert3xo.oitc.utils.TimeUtil;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -34,6 +32,7 @@ public class Game {
 
     private Player winner = null;
 
+    @Getter
     private int counter = 0;
 
     public Game() {
@@ -63,6 +62,14 @@ public class Game {
                         helper.setSlot(numToDisplay--, "&c" + ((Player) players.keySet().toArray()[i]).getDisplayName() + ": " + players.values().toArray()[i]);
                     }
                 }
+
+                if (counter % 5 == 0) {
+                    for (Player player : players.keySet()) {
+                        Inventory inventory = player.getInventory();
+                        if (inventory.contains(Material.ARROW)) continue;
+                        inventory.addItem(new ItemStack(Material.ARROW));
+                    }
+                }
             }
         }
     }
@@ -85,9 +92,12 @@ public class Game {
                     preparePlayer(p);
                     p.teleport(arenaLoc);
                     p.setBedSpawnLocation(arenaLoc, true);
+                    playSound(p, Sound.ENDERDRAGON_GROWL);
                 }
             }
             case END -> {
+                playSound(Sound.LEVEL_UP);
+
                 Collection<Integer> scores = players.values();
                 Iterator<Integer> it = scores.iterator();
                 Player topPlayer = (Player) players.keySet().toArray()[0];
@@ -100,11 +110,12 @@ public class Game {
                     sendMessage(ChatColor.RED + "It's a draw!");
                 }
 
+                ConfigurationHelper lobbyLocationHelper = configHelper.getForPath("lobbyLocation");
                 Location endLoc = new Location(
-                        Bukkit.getWorld(config.getString("lobbyLocation.world")),
-                        config.getDouble("lobbyLocation.x"),
-                        config.getDouble("lobbyLocation.y"),
-                        config.getDouble("lobbyLocation.z")
+                        Bukkit.getWorld(lobbyLocationHelper.getString("world")),
+                        lobbyLocationHelper.getDouble("x"),
+                        lobbyLocationHelper.getDouble("y"),
+                        lobbyLocationHelper.getDouble("z")
                 );
 
                 for (Player p : players.keySet()) {
@@ -128,13 +139,23 @@ public class Game {
         }
     }
 
-    private void playSound(Player player, Sound sound) {
+    public void playSound(Player player, Sound sound) {
         player.playSound(player.getLocation(), sound, 1, 1);
     }
 
-    private void playSound(Sound sound) {
+    public void playSound(Player player, Sound sound, Location location) {
+        player.playSound(location, sound, 1, 1);
+    }
+
+    public void playSound(Sound sound) {
         for (Player p : players.keySet()) {
             p.playSound(p.getLocation(), sound, 1, 1);
+        }
+    }
+
+    public void playSound(Sound sound, Location location) {
+        for (Player p : players.keySet()) {
+            p.playSound(location, sound, 1, 1);
         }
     }
 
@@ -155,10 +176,8 @@ public class Game {
         sword.setItemMeta(meta);
 
         ItemStack bow = new ItemStack(Material.BOW);
-        bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         meta = bow.getItemMeta();
         meta.spigot().setUnbreakable(true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
         bow.setItemMeta(meta);
 
         inventory.addItem(sword, bow, new ItemStack(Material.ARROW));

@@ -38,13 +38,15 @@ public class ScoreHelper {
         return players.remove(player.getUniqueId());
     }
 
-    public static void setDefaultScore(Player player) {
+    public static ScoreHelper setDefaultScore(Player player) {
         removeScore(player);
         ScoreHelper helper = createScore(player);
         helper.setTitle("&b&aOne in the Chamber");
         helper.setSlot(3, "&7&m--------------------------------");
         helper.setSlot(2, "&aPlayer&f: " + player.getName());
         helper.setSlot(1, "&7&m--------------------------------");
+
+        return helper;
     }
 
     private Scoreboard scoreboard;

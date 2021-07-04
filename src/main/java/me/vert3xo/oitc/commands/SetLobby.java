@@ -1,7 +1,7 @@
 package me.vert3xo.oitc.commands;
 
 import me.vert3xo.oitc.OneInTheChamber;
-import me.vert3xo.oitc.configuration.ConfigurationHelper;
+import me.vert3xo.oitc.utils.ConfigurationHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -32,10 +32,11 @@ public class SetLobby extends AbstractCommand {
 
         world.setSpawnLocation(x, y, z);
 
-        config.set("lobbyLocation.world", world.getName());
-        config.set("lobbyLocation.x", x + 0.5);
-        config.set("lobbyLocation.y", y);
-        config.set("lobbyLocation.z", z + 0.5);
+        ConfigurationHelper lobbyLocationHelper = plugin.getConfigHelper().getForPath("lobbyLocation");
+        lobbyLocationHelper.set("world", world.getName());
+        lobbyLocationHelper.set("x", x + 0.5);
+        lobbyLocationHelper.set("y", y);
+        lobbyLocationHelper.set("z", z + 0.5);
         player.sendMessage(ChatColor.GREEN + "Lobby location set.");
         return true;
     }

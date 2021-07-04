@@ -5,6 +5,7 @@ import me.vert3xo.oitc.game.Game;
 import me.vert3xo.oitc.game.GameState;
 import me.vert3xo.oitc.utils.MapUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -32,6 +33,8 @@ public class PlayerDamageListener implements Listener {
     public void onPlayerShot(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Projectile projetile) || !(event.getEntity() instanceof Player damaged)) return;
         if (!(projetile.getShooter() instanceof Player damager)) return;
+
+        game.playSound(Sound.EXPLODE, damaged.getLocation());
 
         Map<Player, Integer> players = game.getPlayers();
         players.put(damager, players.get(damager) + 1);

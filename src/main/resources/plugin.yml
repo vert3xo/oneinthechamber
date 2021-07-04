@@ -18,6 +18,9 @@ commands:
   setarena:
     description: Sets the arena location
     permission: oitc.admin
+  setend:
+    description: Sets the end lobby location
+    permission: oitc.admin
 
 permissions:
   oitc.admin:

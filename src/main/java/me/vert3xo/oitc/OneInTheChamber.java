@@ -2,7 +2,7 @@ package me.vert3xo.oitc;
 
 import lombok.Getter;
 import me.vert3xo.oitc.commands.*;
-import me.vert3xo.oitc.configuration.ConfigurationHelper;
+import me.vert3xo.oitc.utils.ConfigurationHelper;
 import me.vert3xo.oitc.game.Game;
 import me.vert3xo.oitc.listeners.PlayerDamageListener;
 import me.vert3xo.oitc.listeners.PlayerLeaveListener;
@@ -56,6 +56,7 @@ public class OneInTheChamber extends JavaPlugin {
     private void registerCommands() {
         new SetLobby("setlobby");
         new SetArena("setarena");
+        new SetEnd("setend");
 
         new StartGame("startgame", true);
         new EndGame("endgame", true);

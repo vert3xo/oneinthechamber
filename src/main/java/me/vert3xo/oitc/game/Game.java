@@ -13,10 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     private final OneInTheChamber plugin = OneInTheChamber.getPlugin();
@@ -25,7 +22,7 @@ public class Game {
 
     @Getter
     @Setter
-    private Map<Player, Integer> players = new HashMap<>();
+    private Map<Player, Integer> players = new LinkedHashMap<>();
 
     @Getter
     private GameState gameState = GameState.LOBBY;
@@ -102,6 +99,7 @@ public class Game {
                 Iterator<Integer> it = scores.iterator();
                 Player topPlayer = (Player) players.keySet().toArray()[0];
 
+                // Compares scores in `players` map
                 winner = (it.hasNext() ? it.next() : null) == (it.hasNext() ? it.next() : null) ? null : topPlayer;
 
                 if (winner != null) {

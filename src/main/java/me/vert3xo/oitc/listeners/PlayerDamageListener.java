@@ -20,13 +20,17 @@ public class PlayerDamageListener implements Listener {
     private final Game game = plugin.getGame();
 
     private String generateDeathMessage(Player killer, Player killed) {
-        return
-                ChatColor.GOLD + ChatColor.BOLD.toString() +
-                        killed.getDisplayName() +
-                        ChatColor.RESET + ChatColor.GREEN +
-                        " was killed by " +
-                        ChatColor.GOLD + ChatColor.BOLD +
-                        killer.getDisplayName();
+        if (killer != null) {
+            return
+                    ChatColor.GOLD + ChatColor.BOLD.toString() +
+                            killed.getDisplayName() +
+                            ChatColor.RESET + ChatColor.GREEN +
+                            " was killed by " +
+                            ChatColor.GOLD + ChatColor.BOLD +
+                            killer.getDisplayName();
+        } else {
+            return ChatColor.GOLD + ChatColor.BOLD.toString() + killed.getDisplayName() + ChatColor.GREEN + " died.";
+        }
     }
 
     @EventHandler
@@ -51,17 +55,16 @@ public class PlayerDamageListener implements Listener {
     public void onPlayerKill(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
-        if (killer == null) return;
         event.setKeepInventory(true);
-
-        Map<Player, Integer> players = game.getPlayers();
-        players.put(killer, players.get(killer) + 1);
-
         player.spigot().respawn();
-
         event.setDeathMessage(generateDeathMessage(killer, player));
 
-        game.setPlayers(MapUtils.sortMapByValue(game.getPlayers()));
+        if (killer != null) {
+            Map<Player, Integer> players = game.getPlayers();
+            players.put(killer, players.get(killer) + 1);
+
+            game.setPlayers(MapUtils.sortMapByValue(game.getPlayers()));
+        }
     }
 
     @EventHandler
